@@ -11,6 +11,7 @@ export enum AgendaStyle {
   STANDARD = 'Standard',
   RANDOM = 'Random',
   CHAIRMAN = 'Chairman',
+  IMOSHI='Imoshi'
 }
 
 export interface Agenda {
@@ -48,6 +49,15 @@ export class PoliticalAgendas {
       parties.forEach((p) => {
         if (agendaStyle === AgendaStyle.STANDARD) {
           staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[0].id});
+        } else if (agendaStyle === AgendaStyle.IMOSHI) {
+          console.log(p);
+          console.log('Todo - here can we change policies Imoshi');
+          if (p.name === PartyName.GREENS) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.MARS) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[2].id});
+          if (p.name === PartyName.SCIENTISTS) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.KELVINISTS) staticAgendas.set(p.name, {bonusId: p.bonuses[2].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.REDS) staticAgendas.set(p.name, {bonusId: p.bonuses[2].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.UNITY) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[0].id});
         } else {
           staticAgendas.set(p.name, PoliticalAgendas.getRandomAgenda(p));
         }

@@ -6,7 +6,7 @@ import {Phase} from '../../Phase';
 import {PolicyId} from '../Policy';
 import {Resources} from '../../Resources';
 import {ISpace} from '../../boards/ISpace';
-import {GREENS_POLICY_1} from './Greens';
+import {GREENS_POLICY_1, GREENS_POLICY_5} from './Greens';
 import {TurmoilPolicy} from '../TurmoilPolicy';
 
 export class PartyHooks {
@@ -20,6 +20,10 @@ export class PartyHooks {
   static applyGreensRulingPolicy(player: Player, space: ISpace) {
     if (this.shouldApplyPolicy(player.game, PartyName.GREENS, TurmoilPolicy.GREENS_DEFAULT_POLICY)) {
       const greensPolicy = GREENS_POLICY_1;
+      greensPolicy.onTilePlaced(player, space);
+    }
+    if (this.shouldApplyPolicy(player.game, PartyName.GREENS, TurmoilPolicy.GREENS_POLICY_5)) {
+      const greensPolicy = GREENS_POLICY_5;
       greensPolicy.onTilePlaced(player, space);
     }
   }

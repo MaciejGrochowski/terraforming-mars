@@ -247,6 +247,13 @@ export class Player implements ISerializable<SerializedPlayer> {
         return;
       }
     }
+    if (PartyHooks.shouldApplyPolicy(this.game, PartyName.REDS, TurmoilPolicy.REDS_POLICY_5)) {
+      if (this.canAfford(Math.floor(this.game.generation/2))) {
+        this.game.defer(new SelectHowToPayDeferred(this, this.game.generation/2, {title: 'Select how to pay for TR increase'}));
+      } else {
+        return;
+      }
+    }
 
     this.terraformRating++;
     this.hasIncreasedTerraformRatingThisGeneration = true;
