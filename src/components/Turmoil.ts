@@ -39,7 +39,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     </div>`);
   AGENDA_HTML.set('kb03',
     `<div class="resource money party-resource">1</div> /
-      <div class="tag-power"></div>
+<span class="resource-tag tag-power party-resource-tag"></span>
     <div class="production-box party-production-box">
       <div class="heat production"></div>
     </div>`);
