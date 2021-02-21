@@ -1,5 +1,14 @@
 import * as constants from './constants';
-import {DEFAULT_FLOATERS_VALUE, DEFAULT_MICROBES_VALUE, ENERGY_TRADE_COST, MAX_FLEET_SIZE, MC_TRADE_COST, MILESTONE_COST, REDS_RULING_POLICY_COST, TITANIUM_TRADE_COST} from './constants';
+import {
+  DEFAULT_FLOATERS_VALUE,
+  DEFAULT_MICROBES_VALUE,
+  ENERGY_TRADE_COST,
+  MAX_FLEET_SIZE,
+  MC_TRADE_COST,
+  MILESTONE_COST,
+  REDS_RULING_POLICY_COST,
+  TITANIUM_TRADE_COST,
+} from './constants';
 import {AndOptions} from './inputs/AndOptions';
 import {Aridor} from './cards/colonies/Aridor';
 import {Board} from './boards/Board';
@@ -67,6 +76,7 @@ import {ConvertPlants} from './cards/base/standardActions/ConvertPlants';
 import {ConvertHeat} from './cards/base/standardActions/ConvertHeat';
 import {Manutech} from './cards/venusNext/Manutech';
 import {LunaProjectOffice} from './cards/moon/LunaProjectOffice';
+import {AgendaStyle} from './turmoil/PoliticalAgendas';
 
 export type PlayerId = string;
 
@@ -1848,7 +1858,7 @@ export class Player implements ISerializable<SerializedPlayer> {
         sendDelegate = new SendDelegateToArea(this, 'Send a delegate in an area (from lobby)');
       } else if (this.isCorporation(CardName.INCITE) && this.canAfford(3) && this.game.turmoil.getDelegates(this.id) > 0) {
         sendDelegate = new SendDelegateToArea(this, 'Send a delegate in an area (3 MC)', {cost: 3});
-      } else if (this.canAfford(5) && this.game.turmoil!.getDelegates(this.id) > 0) {
+      } else if (this.canAfford(5) && this.game.turmoil!.getDelegates(this.id) > 0 && this.game.turmoil.politicalAgendasData.agendaStyle !== AgendaStyle.IMOSHI) {
         sendDelegate = new SendDelegateToArea(this, 'Send a delegate in an area (5 MC)', {cost: 5});
       }
       if (sendDelegate) {

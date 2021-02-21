@@ -26,11 +26,13 @@ export interface PoliticalAgendasData {
   // by the will of the chairperson, so when staticAgendas is undefined, that means
   // it's the CHAIRMAN agenda style
   staticAgendas: Map<PartyName, Agenda> | undefined;
+  agendaStyle: AgendaStyle
 }
 
 export interface SerializedPoliticalAgendasData {
   currentAgenda: Agenda;
   staticAgendas: Array<[PartyName, Agenda]> | undefined;
+  agendaStyle: AgendaStyle;
 }
 
 export class PoliticalAgendas {
@@ -43,6 +45,7 @@ export class PoliticalAgendas {
         // First chairman will always be neutral, so get a random agenda.
         currentAgenda: PoliticalAgendas.getRandomAgenda(firstRulingParty),
         staticAgendas: undefined,
+        agendaStyle: agendaStyle,
       };
     } else {
       const staticAgendas: Map<PartyName, Agenda> = new Map();
@@ -71,6 +74,7 @@ export class PoliticalAgendas {
       return {
         currentAgenda: firstAgenda,
         staticAgendas: staticAgendas,
+        agendaStyle: agendaStyle,
       };
     }
   }
@@ -127,6 +131,7 @@ export class PoliticalAgendas {
 
   public static serialize(agenda: PoliticalAgendasData): SerializedPoliticalAgendasData {
     return {
+      agendaStyle: agenda.agendaStyle,
       currentAgenda: agenda.currentAgenda,
       staticAgendas: agenda.staticAgendas === undefined ?
         undefined :
@@ -143,11 +148,13 @@ export class PoliticalAgendas {
       return {
         currentAgenda: d.currentAgenda,
         staticAgendas: new Map(d.staticAgendas),
+        agendaStyle: d.agendaStyle,
       };
     }
     return {
       currentAgenda: d.currentAgenda,
       staticAgendas: undefined,
+      agendaStyle: d.agendaStyle,
     };
   }
 }
