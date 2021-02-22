@@ -367,9 +367,9 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       if (this.rulingParty.name === partyName) {
         return true;
       }
-
+      const minimumDelegates = this.politicalAgendasData.agendaStyle === AgendaStyle.IMOSHI ? 1 : 2;
       const party = this.getPartyByName(partyName);
-      if (party !== undefined && party.getDelegates(player.id) >= 2) {
+      if (party !== undefined && party.getDelegates(player.id) >= minimumDelegates) {
         return true;
       }
 
