@@ -8,12 +8,12 @@ import {Reds} from './parties/Reds';
 import {Greens} from './parties/Greens';
 import {Player, PlayerId} from '../Player';
 import {Game} from '../Game';
-import {getGlobalEventByName, GlobalEventDealer} from './globalEvents/GlobalEventDealer';
+import {GlobalEventDealer, getGlobalEventByName} from './globalEvents/GlobalEventDealer';
 import {IGlobalEvent} from './globalEvents/IGlobalEvent';
 import {ISerializable} from '../ISerializable';
 import {SerializedTurmoil} from './SerializedTurmoil';
 import {PLAYER_DELEGATES_COUNT} from '../constants';
-import {AgendaStyle, PoliticalAgendas, PoliticalAgendasData} from './PoliticalAgendas';
+import {AgendaStyle, PoliticalAgendasData, PoliticalAgendas} from './PoliticalAgendas';
 import {CardName} from '../CardName';
 
 export type NeutralPlayer = 'NEUTRAL';
@@ -38,7 +38,8 @@ const UNINITIALIZED_POLITICAL_AGENDAS_DATA: PoliticalAgendasData = {
     policyId: 'none',
   },
   staticAgendas: undefined,
-  agendaStyle: AgendaStyle.STANDARD,
+  agendas: new Map(),
+  agendaStyle: AgendaStyle.CHAIRMAN,
 };
 
 export class Turmoil implements ISerializable<SerializedTurmoil> {
@@ -440,7 +441,7 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       turmoil.delegateReserve = d.delegateReserve;
 
       // TODO(kberg): remove this test by 2021-02-01
-      turmoil.politicalAgendasData = PoliticalAgendas.deserialize(d.politicalAgendasData, turmoil);
+      turmoil.politicalAgendasData = PoliticalAgendas.deserialize(d.politicalAgendasData);
 
       d.parties.forEach((sp) => {
         const tp = turmoil.getPartyByName(sp.name);
