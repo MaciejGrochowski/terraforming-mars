@@ -8,12 +8,13 @@ import {Policy} from '../Policy';
 import {Player} from '../../Player';
 import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferred';
 import {TurmoilPolicy} from '../TurmoilPolicy';
+import {Tags} from '../../cards/Tags';
 
 export class Kelvinists extends Party implements IParty {
   name = PartyName.KELVINISTS;
   description = 'Pushes for rapid terraforming, usually employing a heat-first strategy.';
-  bonuses = [KELVINISTS_BONUS_1, KELVINISTS_BONUS_2];
-  policies = [KELVINISTS_POLICY_1, KELVINISTS_POLICY_2, KELVINISTS_POLICY_3, KELVINISTS_POLICY_4];
+  bonuses = [KELVINISTS_BONUS_1, KELVINISTS_BONUS_2, KELVINISTS_BONUS_3];
+  policies = [KELVINISTS_POLICY_1, KELVINISTS_POLICY_2, KELVINISTS_POLICY_3, KELVINISTS_POLICY_4, KELVINISTS_POLICY_5];
 }
 
 class KelvinistsBonus01 implements Bonus {
@@ -38,6 +39,20 @@ class KelvinistsBonus02 implements Bonus {
     game.getPlayers().forEach((player) => {
       const heatProduction = player.getProduction(Resources.HEAT);
       player.setResource(Resources.HEAT, heatProduction);
+    });
+  }
+}
+
+class KelvinistsBonus03 implements Bonus {
+  id = 'kb03';
+  isDefault = false;
+  description = 'Gain 1 MC for each Heat production and energy tag you have';
+
+  grant(game: Game) {
+    game.getPlayers().forEach((player) => {
+      const energyTagsCount = player.getTagCount(Tags.ENERGY, false, false);
+      const heatProduction = player.getProduction(Resources.HEAT);
+      player.setResource(Resources.MEGACREDITS, heatProduction+energyTagsCount);
     });
   }
 }
@@ -107,9 +122,40 @@ class KelvinistsPolicy04 implements Policy {
   }
 }
 
+class KelvinistsPolicy05 implements Policy {
+  isDefault = false;
+  id = TurmoilPolicy.KELVINISTS_POLICY_5;
+  description: string = 'Pay 7 MC to increase your Energy and Heat production 1 step (Turmoil Kelvinists)';
+
+  canAct(player: Player) {
+    return player.canAfford(7);
+  }
+
+  action(player: Player) {
+    const game = player.game;
+    game.log('${0} used Turmoil Kelvinists action', (b) => b.player(player));
+    game.defer(new SelectHowToPayDeferred(
+      player,
+      7,
+      {
+        title: 'Select how to pay for Turmoil Kelvinists action',
+        afterPay: () => {
+          player.addProduction(Resources.ENERGY);
+          player.addProduction(Resources.HEAT);
+          game.log('${0} increased heat and energy production 1 step', (b) => b.player(player));
+        },
+      },
+    ));
+
+    return undefined;
+  }
+}
+
 export const KELVINISTS_BONUS_1 = new KelvinistsBonus01();
 export const KELVINISTS_BONUS_2 = new KelvinistsBonus02();
+export const KELVINISTS_BONUS_3 = new KelvinistsBonus03();
 export const KELVINISTS_POLICY_1 = new KelvinistsPolicy01();
 export const KELVINISTS_POLICY_2 = new KelvinistsPolicy02();
 export const KELVINISTS_POLICY_3 = new KelvinistsPolicy03();
 export const KELVINISTS_POLICY_4 = new KelvinistsPolicy04();
+export const KELVINISTS_POLICY_5 = new KelvinistsPolicy05();

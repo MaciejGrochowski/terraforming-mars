@@ -7,6 +7,7 @@ export enum TurmoilPolicy {
   SCIENTISTS_POLICY_2 = 'sp02',
   SCIENTISTS_POLICY_3 = 'sp03',
   SCIENTISTS_POLICY_4 = 'sp04',
+  SCIENTISTS_POLICY_5 = 'sp05',
   UNITY_DEFAULT_POLICY = 'up01',
   UNITY_POLICY_2 = 'up02',
   UNITY_POLICY_3 = 'up03',
@@ -15,12 +16,15 @@ export enum TurmoilPolicy {
   GREENS_POLICY_2 = 'gp02',
   GREENS_POLICY_3 = 'gp03',
   GREENS_POLICY_4 = 'gp04',
+  GREENS_POLICY_5 = 'gp05',
   REDS_DEFAULT_POLICY = 'rp01',
   REDS_POLICY_2 = 'rp02',
   REDS_POLICY_3 = 'rp03',
   REDS_POLICY_4 = 'rp04',
+  REDS_POLICY_5 = 'rp05',
   KELVINISTS_DEFAULT_POLICY = 'kp01',
   KELVINISTS_POLICY_2 = 'kp02',
   KELVINISTS_POLICY_3 = 'kp03',
   KELVINISTS_POLICY_4 = 'kp04',
+  KELVINISTS_POLICY_5 = 'kp05'
 }

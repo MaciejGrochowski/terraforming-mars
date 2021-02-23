@@ -26,7 +26,7 @@ export class Greens extends Party implements IParty {
   name = PartyName.GREENS;
   description = 'Want to see a new Earth as soon as possible.';
   bonuses = [GREENS_BONUS_1, GREENS_BONUS_2];
-  policies = [GREENS_POLICY_1, GREENS_POLICY_2, GREENS_POLICY_3, GREENS_POLICY_4];
+  policies = [GREENS_POLICY_1, GREENS_POLICY_2, GREENS_POLICY_3, GREENS_POLICY_4, GREENS_POLICY_5];
 }
 
 class GreensBonus01 implements Bonus {
@@ -155,9 +155,23 @@ class GreensPolicy04 implements Policy {
   }
 }
 
+class GreensPolicy05 implements Policy {
+  isDefault = false;
+  id = TurmoilPolicy.GREENS_POLICY_5;
+  description: string = 'When you place a greenery tile, gain 3 MC and 1 plant.';
+
+  onTilePlaced(player: Player, space: ISpace) {
+    if (space.tile?.tileType === TileType.GREENERY && player.game.phase === Phase.ACTION) {
+      player.setResource(Resources.MEGACREDITS, 3);
+      player.setResource(Resources.PLANTS, 1);
+    }
+  }
+}
+
 export const GREENS_BONUS_1 = new GreensBonus01();
 export const GREENS_BONUS_2 = new GreensBonus02();
 export const GREENS_POLICY_1 = new GreensPolicy01();
 export const GREENS_POLICY_2 = new GreensPolicy02();
 export const GREENS_POLICY_3 = new GreensPolicy03();
 export const GREENS_POLICY_4 = new GreensPolicy04();
+export const GREENS_POLICY_5 = new GreensPolicy05();

@@ -14,6 +14,7 @@ import {SelectHowToPayDeferred} from '../../deferredActions/SelectHowToPayDeferr
 import {IProjectCard} from '../../cards/IProjectCard';
 import {POLITICAL_AGENDAS_MAX_ACTION_USES} from '../../constants';
 import {TurmoilPolicy} from '../TurmoilPolicy';
+import {TileType} from '../../TileType';
 
 export class MarsFirst extends Party implements IParty {
   name = PartyName.MARS;
@@ -76,8 +77,14 @@ class MarsFirstPolicy02 implements Policy {
 
 class MarsFirstPolicy03 implements Policy {
   id = TurmoilPolicy.MARS_FIRST_POLICY_3;
-  description: string = 'Your steel resources are worth 1 MC extra';
+  description: string = 'Your steel resources are worth 1 MC extra. When you put special tile, gain 1MC.';
   isDefault = false;
+
+  onTilePlaced(player: Player, space: ISpace) {
+    if (space.tile && space.spaceType !== SpaceType.COLONY && player.game.phase === Phase.ACTION && space.tile.tileType !== TileType.CITY && space.tile.tileType !== TileType.OCEAN && space.tile.tileType !== TileType.GREENERY) {
+      player.setResource(Resources.MEGACREDITS);
+    }
+  }
 }
 
 class MarsFirstPolicy04 implements Policy {

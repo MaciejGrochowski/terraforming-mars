@@ -37,12 +37,21 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <div class="production-box party-production-box">
       <div class="heat production"></div>
     </div>`);
+  AGENDA_HTML.set('kb03',
+    `<div class="resource money party-resource">1</div> /
+<span class="resource-tag tag-power party-resource-tag"></span>
+    <div class="production-box party-production-box">
+      <div class="heat production"></div>
+    </div>`);
   AGENDA_HTML.set('rb01',
     `<div class="party-inferior-rating tile party-rating party-tile">&lt;</div> :
   <div class="rating tile party-rating party-tile"></div>`);
   AGENDA_HTML.set('rb02',
     `<div class="party-inferior-rating tile party-rating party-tile">&gt;</div> :
   <div class="rating tile party-rating party-tile red-outline "></div>`);
+  AGENDA_HTML.set('rb03',
+    `<div class="party-inferior-rating tile party-rating party-tile">&gt;</div> :
+  <div class="rating tile party-rating party-tile red-outline "></div> + <div class="resource money party-resource">1</div>/notags`);
   AGENDA_HTML.set('gb01',
     `<div class="resource money party-resource">1</div> /
     <div class="resource-tag tag-plant party-resource-tag"></div>
@@ -81,6 +90,12 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <div class="tile temperature-tile req-tile-small"></div>
     : <div class="resource card card-with-border"></div></span>`);
   AGENDA_HTML.set('sp04', `<div class="scientists-requisite"><div class="resource-tag tag-science party-resource-tag"></div></div>`);
+  AGENDA_HTML.set('sp05',
+    `<span class="money resource">9</span>
+    <span class="red-arrow"></span>
+    <span class="card card-with-border resource party-resource"></span>
+    <span class="card card-with-border resource party-resource"></span>
+    <span class="card card-with-border resource party-resource"></span>`);
   AGENDA_HTML.set('up01',
     `<div class="policy-top-margin"><div class="resource titanium"></div> :
     + <div class="resource money">1</div></div>`);
@@ -98,7 +113,6 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     `<span class="money resource">10</span>
     <span class="red-arrow-infinity"></span>
     <div class="production-box production-box-size2">
-      <div class="energy production"></div>
       <div class="heat production"></div>
     </div>`);
   AGENDA_HTML.set('kp02', `<div class="tile temperature-tile req-tile-small" style="margin-right:5px;"></div> : <span class="money resource">3</span>`);
@@ -109,6 +123,13 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
   AGENDA_HTML.set('kp04',
     `<div class="policy-top-margin"><div class="tile empty-tile-small"></div> :
     <span class="heat resource"></span><span class="heat resource"></span></div>`);
+  AGENDA_HTML.set('kp05',
+    `<span class="money resource">7</span>
+    <span class="red-arrow-infinity"></span>
+    <div class="production-box production-box-size2">
+      <div class="energy production"></div>
+      <div class="heat production"></div>
+    </div>`);
   AGENDA_HTML.set('rp01',
     `<div class="policy-top-margin">
     <div class="rating tile"></div> :
@@ -128,6 +149,11 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     : <div class="production-box production-box-size2" style="margin-left:5px;">
       <div class="production-prefix minus"></div><div class="money production">1</div>
     </div>`);
+  AGENDA_HTML.set('rp05',
+    `<div class="policy-top-margin">
+    <div class="rating tile"></div> :
+    <div class="resource money">-1/2GEN</div>
+    </div>`);
   AGENDA_HTML.set('gp01', `<div class="tile greenery-tile"></div> : <div class="resource money">4</div>`);
   AGENDA_HTML.set('gp02',
     `<div class="policy-top-margin"><div class="tile empty-tile-small"></div> :
@@ -143,6 +169,7 @@ const AGENDA_HTML: Map<BonusId | PolicyId, string> = new Map();
     <span class="money resource">5</span>
     <span class="red-arrow-3x"></span>3<span class="plant resource"></span> / 2<span class="microbe resource"></span>
     </div>` );
+  AGENDA_HTML.set('gp05', `<div class="tile greenery-tile"></div> : <div class="resource money">3</div> <span class="plant resource"></span>`);
 }
 
 export const Turmoil = Vue.component('turmoil', {

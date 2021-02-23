@@ -13,12 +13,13 @@ import {RemoveOceanTile} from '../../deferredActions/RemoveOceanTile';
 import {OrOptions} from '../../inputs/OrOptions';
 import {SelectOption} from '../../inputs/SelectOption';
 import {TurmoilPolicy} from '../TurmoilPolicy';
+import {Resources} from '../../Resources';
 
 export class Reds extends Party implements IParty {
   name = PartyName.REDS;
   description = 'Wishes to preserve the red planet.';
-  bonuses = [REDS_BONUS_1, REDS_BONUS_2];
-  policies = [REDS_POLICY_1, REDS_POLICY_2, REDS_POLICY_3, REDS_POLICY_4];
+  bonuses = [REDS_BONUS_1, REDS_BONUS_2, REDS_BONUS_3];
+  policies = [REDS_POLICY_1, REDS_POLICY_2, REDS_POLICY_3, REDS_POLICY_4, REDS_POLICY_5];
 }
 
 class RedsBonus01 implements Bonus {
@@ -64,6 +65,33 @@ class RedsBonus02 implements Bonus {
     }
   }
 }
+
+class RedsBonus03 implements Bonus {
+  id = 'rb03';
+  description = 'The player(s) with the lowest TR gains 1 TR + 1MC for cards without tags';
+  isDefault = true;
+
+  grant(game: Game) {
+    const players = game.getPlayers();
+
+    game.getPlayers().forEach((player) => {
+      const noTagCardsCount = player.getNoTagsCount();
+      player.setResource(Resources.MEGACREDITS, noTagCardsCount);
+    });
+    if (game.isSoloMode() && players[0].getTerraformRating() <= 20) {
+      players[0].increaseTerraformRating();
+    } else {
+      players.sort((p1, p2) => p1.getTerraformRating() - p2.getTerraformRating());
+      const min = players[0].getTerraformRating();
+
+      while (players.length > 0 && players[0].getTerraformRating() === min) {
+        players[0].increaseTerraformRating();
+        players.shift();
+      }
+    }
+  }
+}
+
 
 class RedsPolicy01 implements Policy {
   id = TurmoilPolicy.REDS_DEFAULT_POLICY;
@@ -186,9 +214,17 @@ class RedsPolicy04 implements Policy {
   isDefault = false;
 }
 
+class RedsPolicy05 implements Policy {
+  id = TurmoilPolicy.REDS_POLICY_5;
+  isDefault = false;
+  description: string = 'When you take an action that raises TR, you MUST pay 1/2GEN(floored) MC per step raised';
+}
+
 export const REDS_BONUS_1 = new RedsBonus01();
 export const REDS_BONUS_2 = new RedsBonus02();
+export const REDS_BONUS_3 = new RedsBonus03();
 export const REDS_POLICY_1 = new RedsPolicy01();
 export const REDS_POLICY_2 = new RedsPolicy02();
 export const REDS_POLICY_3 = new RedsPolicy03();
 export const REDS_POLICY_4 = new RedsPolicy04();
+export const REDS_POLICY_5 = new RedsPolicy05();

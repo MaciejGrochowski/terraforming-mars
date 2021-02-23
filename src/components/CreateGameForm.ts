@@ -279,6 +279,8 @@ export const CreateGameForm = Vue.component('create-game-form', {
         return AgendaStyle.RANDOM;
       } else if (type === 'chairman') {
         return AgendaStyle.CHAIRMAN;
+      } else if (type === 'imoshi') {
+        return AgendaStyle.IMOSHI;
       } else {
         console.warn('AgendaStyle not found');
         return AgendaStyle.STANDARD;
@@ -489,7 +491,7 @@ export const CreateGameForm = Vue.component('create-game-form', {
     createGame: function() {
       const dataToSend = this.serializeSettings();
 
-      if (dataToSend === undefined) return;
+      // if (dataToSend === undefined) return;
       const onSucces = (response: any) => {
         if (response.players.length === 1) {
           window.location.href = '/player?id=' + response.players[0].id;
@@ -644,6 +646,15 @@ export const CreateGameForm = Vue.component('create-game-form', {
                                         <span class="agendas-text" v-i18n>{{ getPoliticalAgendasExtensionAgendaStyle('chairman') }}</span>
                                     </label>
                                     </div>
+
+                                  <div>
+                                    <input type="radio" name="agendaStyle" v-model="politicalAgendasExtension" :value="getPoliticalAgendasExtensionAgendaStyle('imoshi')" id="imoshiAgendaStyle-radio">
+                                    <label class="label-agendaStyle agendaStyle-imoshi" for="imoshiAgendaStyle-radio">
+                                      <span class="agendas-text" v-i18n>{{ getPoliticalAgendasExtensionAgendaStyle('imoshi') }}</span>
+                                    </label>
+                                  </div>
+                                  
+                                  
                                 </div>
                             </template>
                         </div>

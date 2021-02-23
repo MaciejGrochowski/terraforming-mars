@@ -11,6 +11,7 @@ export enum AgendaStyle {
   STANDARD = 'Standard',
   RANDOM = 'Random',
   CHAIRMAN = 'Chairman',
+  IMOSHI='Imoshi'
 }
 
 export interface Agenda {
@@ -25,7 +26,6 @@ export interface PoliticalAgendasData {
   // by the will of the chairperson, so when staticAgendas is undefined, that means
   // it's the CHAIRMAN agenda style
   staticAgendas: Map<PartyName, Agenda> | undefined;
-
   // Agendas will always be populated, even if the current agenda is the chairman.
   agendas: Map<PartyName, Agenda>;
   agendaStyle: AgendaStyle;
@@ -64,7 +64,25 @@ export class PoliticalAgendas {
         agendaStyle: agendaStyle,
       };
     } else {
-      const firstAgenda = agendas.get(firstRulingParty.name);
+      const staticAgendas: Map<PartyName, Agenda> = new Map();
+      parties.forEach((p) => {
+        if (agendaStyle === AgendaStyle.STANDARD) {
+          staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[0].id});
+        } else if (agendaStyle === AgendaStyle.IMOSHI) {
+          console.log(p);
+          console.log('Todo - here can we change policies Imoshi');
+          if (p.name === PartyName.GREENS) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.MARS) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[2].id});
+          if (p.name === PartyName.SCIENTISTS) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.KELVINISTS) staticAgendas.set(p.name, {bonusId: p.bonuses[2].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.REDS) staticAgendas.set(p.name, {bonusId: p.bonuses[2].id, policyId: p.policies[4].id});
+          if (p.name === PartyName.UNITY) staticAgendas.set(p.name, {bonusId: p.bonuses[0].id, policyId: p.policies[0].id});
+        } else {
+          staticAgendas.set(p.name, PoliticalAgendas.getRandomAgenda(p));
+        }
+      });
+
+      const firstAgenda = staticAgendas.get(firstRulingParty.name);
       if (firstAgenda === undefined) {
         throw new Error('No static agenda for party ' + firstRulingParty.name);
       }
@@ -127,6 +145,7 @@ export class PoliticalAgendas {
 
   public static serialize(agenda: PoliticalAgendasData): SerializedPoliticalAgendasData {
     return {
+      agendaStyle: agenda.agendaStyle,
       currentAgenda: agenda.currentAgenda,
       staticAgendas: agenda.staticAgendas === undefined ? undefined : Array.from(agenda.staticAgendas.entries()),
       agendaStyle: agenda.agendaStyle,

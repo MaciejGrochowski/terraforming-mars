@@ -8,12 +8,12 @@ import {Reds} from './parties/Reds';
 import {Greens} from './parties/Greens';
 import {Player, PlayerId} from '../Player';
 import {Game} from '../Game';
-import {GlobalEventDealer, getGlobalEventByName} from './globalEvents/GlobalEventDealer';
+import {getGlobalEventByName, GlobalEventDealer} from './globalEvents/GlobalEventDealer';
 import {IGlobalEvent} from './globalEvents/IGlobalEvent';
 import {ISerializable} from '../ISerializable';
 import {SerializedTurmoil} from './SerializedTurmoil';
 import {PLAYER_DELEGATES_COUNT} from '../constants';
-import {AgendaStyle, PoliticalAgendasData, PoliticalAgendas} from './PoliticalAgendas';
+import {AgendaStyle, PoliticalAgendas, PoliticalAgendasData} from './PoliticalAgendas';
 import {CardName} from '../CardName';
 
 export type NeutralPlayer = 'NEUTRAL';
@@ -368,9 +368,9 @@ export class Turmoil implements ISerializable<SerializedTurmoil> {
       if (this.rulingParty.name === partyName) {
         return true;
       }
-
+      const minimumDelegates = this.politicalAgendasData.agendaStyle === AgendaStyle.IMOSHI ? 1 : 2;
       const party = this.getPartyByName(partyName);
-      if (party !== undefined && party.getDelegates(player.id) >= 2) {
+      if (party !== undefined && party.getDelegates(player.id) >= minimumDelegates) {
         return true;
       }
 
