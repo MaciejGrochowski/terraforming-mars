@@ -148,7 +148,6 @@ export class PoliticalAgendas {
       agendaStyle: agenda.agendaStyle,
       currentAgenda: agenda.currentAgenda,
       staticAgendas: agenda.staticAgendas === undefined ? undefined : Array.from(agenda.staticAgendas.entries()),
-      agendaStyle: agenda.agendaStyle,
       agendas: Array.from(agenda.agendas.entries()),
     };
   }
@@ -175,6 +174,7 @@ export class PoliticalAgendas {
     switch (d.agendaStyle) {
     case AgendaStyle.STANDARD:
     case AgendaStyle.RANDOM:
+    case AgendaStyle.IMOSHI:
       return {
         currentAgenda: d.currentAgenda,
         staticAgendas: new Map(d.staticAgendas),
